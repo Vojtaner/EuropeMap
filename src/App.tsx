@@ -3,7 +3,6 @@ import GameScreen from "./components/GameScreen";
 import HomeScreen from "./components/HomeScreen";
 import { Countries } from "./assets/data/countries";
 import ResultScreen from "./components/ResultScreen";
-import React from "react";
 
 function App() {
   const [questionArray, setQuestionArray] = useState<number[]>();
@@ -11,8 +10,8 @@ function App() {
 
   // Generates random number with in the length of countries list
   function generateQuestionArray() {
-    let array: number[] = [];
-    let countries = [...Countries];
+    const array: number[] = [];
+    const countries = [...Countries];
 
     for (let i = 0; i < 10; i++) {
       const questionNumber: number = Math.floor(
