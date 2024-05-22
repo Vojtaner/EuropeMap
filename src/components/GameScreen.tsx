@@ -19,6 +19,7 @@ const GameScreen = ({ questionArray, isFinished, onFinish }: Props) => {
     boolean | undefined
   >(undefined);
   const [answeredQuestions, setAnsweredQuestions] = useState<Question[]>([]);
+
   const currentQuestion = answeredQuestions.length;
   const correctAnswers = useRef<number>(0);
 
@@ -34,10 +35,10 @@ const GameScreen = ({ questionArray, isFinished, onFinish }: Props) => {
     : "";
 
   function handleSelect(object: EventTarget & SVGPathElement) {
-    if (isAnsweredCorrect !== undefined){
-      return
+    if (isAnsweredCorrect !== undefined) {
+      return;
     }
-    let result: Question = { answer: undefined };
+    const result: Question = { answer: undefined };
     if (object.id === Countries[questionArray[currentQuestion]][0]) {
       result.answer = true;
       setIsAnsweredCorrect(true);
