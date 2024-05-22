@@ -1,0 +1,274 @@
+:root {
+  --color--darkBlue: #00387f;
+  --color--lightBlue: #0084b0;
+  --color--pink: #ff1b94;
+  --color--red: #f12e2e;
+  --color--white: #ffffff;
+}
+
+#root {
+  max-width: 100%;
+  padding: 0;
+}
+
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat-Bold.ttf");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat-Medium.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background: var(--color--darkBlue);
+  color: var(--color--white);
+  font-family: "Montserrat";
+  font-weight: normal;
+  font-size: 5rem;
+  line-height: 1;
+  overflow: hidden;
+  margin:0;
+}
+
+
+
+/* Typography */
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1;
+}
+
+h1 {
+  font-family: "Montserrat";
+  font-weight: 900;
+  font-size: 10rem;
+  margin-bottom: auto;
+  line-height: 17rem;
+}
+
+h2 {
+  text-transform: uppercase;
+  font-size: 5.8rem;
+  white-space: nowrap;
+  margin: 0;
+}
+
+h3 {
+  text-transform: uppercase;
+  margin: 0;
+  font-size: 5rem;
+}
+
+h4 {
+  font-weight: 100;
+  font-size: 4rem;
+  margin: 0;
+  white-space: nowrap;
+}
+p {
+  margin-bottom: 12rem;
+  line-height: 9rem;
+}
+
+/* Buttons */
+
+button {
+  outline: none;
+  border: 0;
+  background: none;
+}
+
+.btn {
+  color: var(--color--white);
+  border: 0;
+  padding: 3rem 5.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 3rem;
+}
+
+.white--border {
+  box-shadow: 5px 5px 0 0.2px rgb(246, 217, 232);
+}
+
+.pink--color {
+  background: var(--color--pink);
+}
+
+/* General screen
+   -HomeScreen 
+   -ResultScreen */
+
+.general-screen::before {
+  background-image: url("/src/assets/images/mapa.webp");
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: 100vw 100vh;
+  background-repeat: no-repeat;
+  opacity: 0.2;
+  z-index: -1;
+  top: 0;
+  left: 0rem;
+  background-position-x: -0rem;
+}
+
+.general-screen {
+  text-align: center;
+  height: 100vh;
+}
+
+@media screen and (min-width: 1081px) {
+  .general-screen::before {
+    background-position-x: 0;
+    top: 0;
+    left: 0;
+  }
+}
+
+.general-screen {
+  padding: 10rem;
+}
+
+.result {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: var(--color--pink);
+}
+
+/* Gamescreen */
+
+.grid__game {
+  grid-template-rows: 1fr 3fr 1fr;
+  display: grid;
+  height: 28rem;
+  text-align: center;
+}
+
+.grid-item {
+  align-self: center;
+}
+
+.banner {
+  padding: 1rem;
+  justify-self: center;
+  width: 100vw;
+  height: 30rem;
+  margin-top: -10px;
+  background-color: #ff1b94;
+}
+
+.country--name {
+  margin: 5rem;
+}
+
+.answer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  height: 12rem;
+}
+
+.capital-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.capital-box .title {
+  color: var(--color--darkBlue);
+  font-weight: bold;
+  margin-bottom: 3rem;
+}
+
+.flag {
+  justify-self: flex-end;
+  width: 22rem;
+  height: 12rem;
+}
+
+.cross {
+  width: 12rem;
+  height: 12rem;
+}
+
+.wrong__answer {
+  justify-self: center;
+  align-self: center;
+  font-weight: normal;
+  font-size: 8rem;
+  opacity: 0.8;
+}
+
+.score {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.btn-img {
+  background-image: url("./assets/images/button.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  text-align: center;
+  padding: 0rem;
+  cursor: pointer;
+  width: 60vw;
+  height: 10rem;
+}
+
+.end--game {
+  color: var(--color--white);
+}
+
+/* Results */
+
+.resultscreen {
+  text-transform: uppercase;
+}
+
+/* Map */
+g.nationGroup,
+path {
+  fill: #c0c0c0;
+  stroke: white;
+  stroke-width: 8;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+#ocean {
+  opacity: 1;
+  fill: #00387f;
+}
+#lakes {
+  opacity: 0.4;
+  fill: white;
+  stroke: none;
+  stroke-width: 8;
+}

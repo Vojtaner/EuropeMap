@@ -1,0 +1,1 @@
+1. switching fonts from ttf to woff2

@@ -1,0 +1,80 @@
+import {
+  belgieFlag,
+  beloruskoFlag,
+  britanieFlag,
+  ceskoFlag,
+  chorvatskoFlag,
+  danskoFlag,
+  estonskoFlag,
+  finskoFlag,
+  francieFlag,
+  holandskoFlag,
+  irskoFlag,
+  italieFlag,
+  litvaFlag,
+  lotysskoFlag,
+  lucemburskoFlag,
+  madarskoFlag,
+  nemeckoFlag,
+  norskoFlag,
+  polskoFlag,
+  portugalskoFlag,
+  rakouskoFlag,
+  reckoFlag,
+  rumunskoFlag,
+  ruskoFlag,
+  slovenskoFlag,
+  slovinskoFlag,
+  spanelskoFlag,
+  srbskoFlag,
+  svedskoFlag,
+  svycarskoFlag,
+  bulharskoFlag,
+} from "../images/flags";
+
+export const Countries = [
+  ["be", "Belgie", "Brusel", belgieFlag],
+  ["by", "Bělorusko", "Minsk", beloruskoFlag],
+  ["uk", "Velká Británie", "Londýn", britanieFlag],
+  ["bg", "Bulharsko", "Sofie", bulharskoFlag],
+  ["cz", "Česká republika", "Praha", ceskoFlag],
+  ["dk", "Dánsko", "Kodaň", danskoFlag],
+  ["ee", "Estonsko", "Tallinn", estonskoFlag],
+  ["fi", "Finsko", "Helsinky", finskoFlag],
+  ["fr", "Francie", "Paříž", francieFlag],
+  ["nl", "Nizozemsko", "Amsterdam", holandskoFlag],
+  ["hr", "Chorvatsko", "Záhřeb", chorvatskoFlag],
+  ["ie", "Irsko", "Dublin", irskoFlag],
+  ["it", "Itálie", "Řím", italieFlag],
+  ["lt", "Litva", "Vilnius", litvaFlag],
+  ["lv", "Lotyšsko", "Riga", lotysskoFlag],
+  ["lu", "Lucembursko", "Lucemburk", lucemburskoFlag],
+  ["hu", "Maďarsko", "Budapešť", madarskoFlag],
+  ["de", "Německo", "Berlín", nemeckoFlag],
+  ["no", "Norsko", "Oslo", norskoFlag],
+  ["pl", "Polsko", "Varšava", polskoFlag],
+  ["pt", "Portugalsko", "Lisabon", portugalskoFlag],
+  ["at", "Rakousko", "Vídeň", rakouskoFlag],
+  ["gr", "Řecko", "Atény", reckoFlag],
+  ["ro", "Rumunsko", "Bukurešť", rumunskoFlag],
+  ["ru-main" || "ru-kaliningrad", "Rusko", "Moskva", ruskoFlag],
+  ["sk", "Slovensko", "Bratislava", slovenskoFlag],
+  ["si", "Slovinsko", "Lublaň", slovinskoFlag],
+  ["es", "Španělsko", "Madrid", spanelskoFlag],
+  ["rs", "Srbsko", "Bělehrad", srbskoFlag],
+  ["se", "Švédsko", "Stockholm", svedskoFlag],
+  ["ch", "Švýcarsko", "Bern", svycarskoFlag],
+];
+
+// Státy z SVG a jejich značení
+
+// const idSeznam = [
+//   "rs", "gl", "is", "pt", "ma", "es", "tn", "dz", "be", "it", "by", "pl", "jo", "tm", "kz", "fi", "de", "se", "no", "ua",
+//   "il", "sa", "iq", "az", "ir", "ge", "sy", "tr", "am", "cy", "ie", "uk", "ch", "at", "cz", "sk", "hu", "lt", "lv", "md", "ro",
+//   "bg", "al", "ee", "lb", "ad", "sm", "mc", "lu", "fr", "li", "nl", "ba", "si", "mk", "hr", "dk", "ru", "ru-main", "ru-kaliningrad",
+//   "mt", "me", "gr", "im", "va"
+// ];
+
+// const chybejiciStaty = idSeznam.filter(
+//   (id) => !staty.map((stat) => stat[0]).includes(id)
+// );
