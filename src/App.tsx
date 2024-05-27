@@ -6,42 +6,18 @@ import { Dispatch, SetStateAction, useRef, useEffect } from "react";
 import { useGesture } from "@use-gesture/react";
 export default function Home() {
   const [crop, setCrop] = useState({ x: 0, y: 0, scale: 1 });
-  const [dotPosition, setDotPosition] = useState<{
-    x: number;
-    y: number;
-  }>({ x: -10, y: -10 });
 
-  console.log(dotPosition);
   return (
     <>
       <p className="image-cropper">Image Cropper</p>
       <div className="container">
-        <ImageCropper
-          src={map}
-          crop={crop}
-          onCropChange={setCrop}
-          onDotPositionChange={setDotPosition}
-        />
-        <div
-          style={{
-            top: dotPosition.y,
-            left: dotPosition.x,
-            position: "fixed",
-            width: "10px",
-            height: "10px",
-            backgroundColor: "red",
-            borderRadius: "50%",
-          }}
-        ></div>
+        <ImageCropper src={map} crop={crop} onCropChange={setCrop} />
         <div className="dot" style={{ top: 45, left: 38 }}></div>
         {/* <PointPlacement /> */}
         <div className="crop-details">
           <p>Crop X: {Math.round(crop.x)}</p>
           <p>Crop Y: {Math.round(crop.y)}</p>
           <p>Crop Scale: {Math.round(crop.scale * 100) / 100}</p>
-          {dotPosition.x !== null && dotPosition.y !== null && (
-            <p>Dot Position: {`x: ${dotPosition.x}, y: ${dotPosition.y}`}</p>
-          )}
         </div>
       </div>
     </>
@@ -54,14 +30,12 @@ type ImageCropperProps = {
   onCropChange: Dispatch<
     SetStateAction<{ x: number; y: number; scale: number }>
   >;
-  onDotPositionChange: Dispatch<SetStateAction<{ x: number; y: number }>>;
 };
 
 const ImageCropper: React.FC<ImageCropperProps> = ({
   src,
   crop,
   onCropChange,
-  onDotPositionChange,
 }) => {
   const x = useMotionValue(crop.x);
   const y = useMotionValue(crop.y);
@@ -71,6 +45,8 @@ const ImageCropper: React.FC<ImageCropperProps> = ({
   const touchStartTimeRef = useRef<number | null>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
+  const dotRef = useRef<HTMLDivElement>(null);
+  const [dots, setDots] = useState({ x: 500, y: 500 });
 
   useEffect(() => {
     x.set(crop.x);
@@ -147,7 +123,7 @@ const ImageCropper: React.FC<ImageCropperProps> = ({
           if (touchDuration >= 2000) {
             const x = event.changedTouches[0].clientX;
             const y = event.changedTouches[0].clientY;
-            onDotPositionChange({ x, y });
+            setDots({ x, y });
           }
         }
       },
@@ -237,6 +213,18 @@ const ImageCropper: React.FC<ImageCropperProps> = ({
           }}
           className="cropping-image"
         />
+        <div
+          ref={dotRef}
+          style={{
+            top: dots.y,
+            left: dots.x,
+            position: "fixed",
+            width: "10px",
+            height: "10px",
+            backgroundColor: "red",
+            borderRadius: "50%",
+          }}
+        ></div>
         <div
           className={`overlay ${
             isDragging || isPinching ? "visible" : "hidden"
