@@ -1,22 +1,47 @@
-import { animate, motion, useMotionValue } from "framer-motion";
-import { Dispatch, SetStateAction, useRef, useState, useEffect } from "react";
-import { useGesture } from "@use-gesture/react";
+import { useState } from "react";
 import map from "./assets/images/map.svg";
-import PointPlacement from "./components/SvgIcon/PointPlacement";
 
+import { animate, motion, useMotionValue } from "framer-motion";
+import { Dispatch, SetStateAction, useRef, useEffect } from "react";
+import { useGesture } from "@use-gesture/react";
 export default function Home() {
   const [crop, setCrop] = useState({ x: 0, y: 0, scale: 1 });
+  const [dotPosition, setDotPosition] = useState<{
+    x: number;
+    y: number;
+  }>({ x: -10, y: -10 });
 
+  console.log(dotPosition);
   return (
     <>
       <p className="image-cropper">Image Cropper</p>
       <div className="container">
-        <ImageCropper src={map} crop={crop} onCropChange={setCrop} />
-        <PointPlacement/>
+        <ImageCropper
+          src={map}
+          crop={crop}
+          onCropChange={setCrop}
+          onDotPositionChange={setDotPosition}
+        />
+        <div
+          style={{
+            top: dotPosition.y,
+            left: dotPosition.x,
+            position: "fixed",
+            width: "10px",
+            height: "10px",
+            backgroundColor: "red",
+            borderRadius: "50%",
+          }}
+        ></div>
+        <div className="dot" style={{ top: 45, left: 38 }}></div>
+        {/* <PointPlacement /> */}
         <div className="crop-details">
           <p>Crop X: {Math.round(crop.x)}</p>
           <p>Crop Y: {Math.round(crop.y)}</p>
           <p>Crop Scale: {Math.round(crop.scale * 100) / 100}</p>
+          {dotPosition.x !== null && dotPosition.y !== null && (
+            <p>Dot Position: {`x: ${dotPosition.x}, y: ${dotPosition.y}`}</p>
+          )}
         </div>
       </div>
     </>
@@ -29,17 +54,23 @@ type ImageCropperProps = {
   onCropChange: Dispatch<
     SetStateAction<{ x: number; y: number; scale: number }>
   >;
+  onDotPositionChange: Dispatch<SetStateAction<{ x: number; y: number }>>;
 };
 
-function ImageCropper({ src, crop, onCropChange }: ImageCropperProps) {
+const ImageCropper: React.FC<ImageCropperProps> = ({
+  src,
+  crop,
+  onCropChange,
+  onDotPositionChange,
+}) => {
   const x = useMotionValue(crop.x);
   const y = useMotionValue(crop.y);
   const scale = useMotionValue(crop.scale);
   const [isDragging, setIsDragging] = useState(false);
   const [isPinching, setIsPinching] = useState(false);
-
-  const imageRef = useRef();
-  const imageContainerRef = useRef();
+  const touchStartTimeRef = useRef<number | null>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     x.set(crop.x);
@@ -75,7 +106,7 @@ function ImageCropper({ src, crop, onCropChange }: ImageCropperProps) {
         y.stop();
 
         memo ??= {
-          bounds: imageRef.current.getBoundingClientRect(),
+          bounds: imageRef.current!.getBoundingClientRect(),
           crop: { x: x.get(), y: y.get(), scale: scale.get() },
         };
 
@@ -101,13 +132,25 @@ function ImageCropper({ src, crop, onCropChange }: ImageCropperProps) {
         return memo;
       },
       onPinchEnd: () => {
-        // Use setTimeout to delay the transition from pinch to drag
         setTimeout(() => {
           setIsPinching(false);
           maybeAdjustImage();
-        }, 100); // Adjust the delay time as needed
+        }, 100);
       },
       onDragEnd: maybeAdjustImage,
+      onTouchStart: () => {
+        touchStartTimeRef.current = Date.now();
+      },
+      onTouchEnd: ({ event }) => {
+        if (touchStartTimeRef.current) {
+          const touchDuration = Date.now() - touchStartTimeRef.current;
+          if (touchDuration >= 2000) {
+            const x = event.changedTouches[0].clientX;
+            const y = event.changedTouches[0].clientY;
+            onDotPositionChange({ x, y });
+          }
+        }
+      },
     },
     {
       drag: {
@@ -122,11 +165,11 @@ function ImageCropper({ src, crop, onCropChange }: ImageCropperProps) {
   );
 
   function getDragBounds() {
-    const imageBounds = imageRef.current.getBoundingClientRect();
-    const containerBounds = imageContainerRef.current.getBoundingClientRect();
-    const originalWidth = imageRef.current.clientWidth;
+    const imageBounds = imageRef.current!.getBoundingClientRect();
+    const containerBounds = imageContainerRef.current!.getBoundingClientRect();
+    const originalWidth = imageRef.current!.clientWidth;
     const widthOverhang = (imageBounds.width - originalWidth) / 2;
-    const originalHeight = imageRef.current.clientHeight;
+    const originalHeight = imageRef.current!.clientHeight;
     const heightOverhang = (imageBounds.height - originalHeight) / 2;
 
     return {
@@ -176,7 +219,11 @@ function ImageCropper({ src, crop, onCropChange }: ImageCropperProps) {
         isDragging ? "cursor-grabbing" : "cursor-grab"
       }`}
     >
-      <div ref={imageContainerRef} className="image-container">
+      <div
+        ref={imageContainerRef}
+        className="image-container"
+        style={{ position: "relative" }}
+      >
         <motion.img
           src={src}
           ref={imageRef}
@@ -209,7 +256,7 @@ function ImageCropper({ src, crop, onCropChange }: ImageCropperProps) {
       </div>
     </div>
   );
-}
+};
 
 function dampen(val, [min, max]) {
   if (val > max) {

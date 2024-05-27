@@ -9,7 +9,7 @@
     width: 100vw;
     height: 90vh;
     border: 1px solid black;
-    background-image: url("./assets//map.svg");
+    background-image: url("./assets/images/map.svg");
   }
   
   .dot {
