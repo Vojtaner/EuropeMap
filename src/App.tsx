@@ -2,6 +2,7 @@ import { animate, motion, useMotionValue } from "framer-motion";
 import { Dispatch, SetStateAction, useRef, useState, useEffect } from "react";
 import { useGesture } from "@use-gesture/react";
 import map from "./assets/images/map.svg";
+import PointPlacement from "./components/SvgIcon/PointPlacement";
 
 export default function Home() {
   const [crop, setCrop] = useState({ x: 0, y: 0, scale: 1 });
@@ -11,6 +12,7 @@ export default function Home() {
       <p className="image-cropper">Image Cropper</p>
       <div className="container">
         <ImageCropper src={map} crop={crop} onCropChange={setCrop} />
+        <PointPlacement/>
         <div className="crop-details">
           <p>Crop X: {Math.round(crop.x)}</p>
           <p>Crop Y: {Math.round(crop.y)}</p>
