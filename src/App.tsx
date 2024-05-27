@@ -45,6 +45,13 @@ const ImageCropper: React.FC<ImageCropperProps> = ({
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
   const [dots, setDots] = useState({ x: 500, y: 500 });
+  console.log("imageRef", imageRef.current?.getBoundingClientRect());
+  console.log(
+    "imageContainerRef",
+    imageContainerRef.current?.getBoundingClientRect()
+  );
+  console.log("dotRef", dotRef.current?.getBoundingClientRect());
+  console.log("dots", dots);
 
   useEffect(() => {
     x.set(crop.x);
@@ -56,8 +63,7 @@ const ImageCropper: React.FC<ImageCropperProps> = ({
     {
       onDrag: ({ dragging, offset: [ox, oy] }) => {
         setIsDragging(dragging);
-        if (isPinching) return; // Prevent handling drag events during a pinch gesture
-
+        if (isPinching) return;
         x.stop();
         y.stop();
 
