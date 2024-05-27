@@ -21,9 +21,9 @@ const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 function createWindow() {
   win = new BrowserWindow({
     icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
-    kiosk: true,
+    kiosk: false,
     webPreferences: {
-      devTools: false,
+      devTools: true,
       preload: path.join(__dirname, "preload.js"),
     },
     fullscreen: true,
@@ -40,8 +40,9 @@ function createWindow() {
     // win.loadFile('dist/index.html')
     win.loadFile(path.join(process.env.DIST, 'index.html'))
   }
+  
 
-  win.removeMenu()
+  // win.removeMenu()
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -60,6 +61,7 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
   }
+  
 })
 
 app.whenReady().then(createWindow)
