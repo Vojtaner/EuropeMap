@@ -12,8 +12,6 @@ export default function Home() {
       <p className="image-cropper">Image Cropper</p>
       <div className="container">
         <ImageCropper src={map} crop={crop} onCropChange={setCrop} />
-        <div className="dot" style={{ top: 45, left: 38 }}></div>
-        {/* <PointPlacement /> */}
         <div className="crop-details">
           <p>Crop X: {Math.round(crop.x)}</p>
           <p>Crop Y: {Math.round(crop.y)}</p>
