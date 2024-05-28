@@ -40,28 +40,23 @@ const ImageCropper: React.FC<ImageCropperProps> = ({
   const scale = useMotionValue(crop.scale);
   const [isDragging, setIsDragging] = useState(false);
   const [isPinching, setIsPinching] = useState(false);
+  const [movement, setMovement] = useState({ y: 0, x: 0 });
+  const [startScale, setStartScale] = useState(1);
   const touchStartTimeRef = useRef<number | null>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
   const [dots, setDots] = useState({ x: 500, y: 500 });
-  console.log("imageRef", imageRef.current?.getBoundingClientRect());
-  console.log(
-    "imageContainerRef",
-    imageContainerRef.current?.getBoundingClientRect()
-  );
-  console.log("dotRef", dotRef.current?.getBoundingClientRect());
-  console.log("dots", dots);
 
   useEffect(() => {
     x.set(crop.x);
     y.set(crop.y);
-    scale.set(crop.scale);
+    // scale.set(crop.scale);
   }, [crop, x, y, scale]);
 
   useGesture(
     {
-      onDrag: ({ dragging, offset: [ox, oy] }) => {
+      onDrag: ({ dragging, offset: [ox, oy], movement: [mx, my] }) => {
         setIsDragging(dragging);
         if (isPinching) return;
         x.stop();
@@ -72,6 +67,7 @@ const ImageCropper: React.FC<ImageCropperProps> = ({
 
         x.set(newCropX);
         y.set(newCropY);
+        setMovement({ x: mx, y: my });
       },
       onPinch: ({
         pinching,
@@ -117,9 +113,13 @@ const ImageCropper: React.FC<ImageCropperProps> = ({
           maybeAdjustImage();
         }, 100);
       },
-      onDragEnd: maybeAdjustImage,
+      onDragEnd: () => {
+        maybeAdjustImage();
+      },
       onTouchStart: () => {
         touchStartTimeRef.current = Date.now();
+
+        setStartScale(crop.scale);
       },
       onTouchEnd: ({ event }) => {
         if (touchStartTimeRef.current) {
@@ -130,6 +130,11 @@ const ImageCropper: React.FC<ImageCropperProps> = ({
             setDots({ x, y });
           }
         }
+        setDots((prevState) => ({
+          x: prevState.x + movement.x,
+          y: prevState.y + movement.y,
+        }));
+        console.log(startScale, crop.scale);
       },
     },
     {
@@ -166,6 +171,7 @@ const ImageCropper: React.FC<ImageCropperProps> = ({
 
   function maybeAdjustImage() {
     const newCrop = { x: x.get(), y: y.get(), scale: scale.get() };
+
     const bounds = getDragBounds();
 
     if (newCrop.x > bounds.x[1]) {
@@ -173,7 +179,6 @@ const ImageCropper: React.FC<ImageCropperProps> = ({
     } else if (newCrop.x < bounds.x[0]) {
       newCrop.x = bounds.x[0];
     }
-
     if (newCrop.y > bounds.y[1]) {
       newCrop.y = bounds.y[1];
     } else if (newCrop.y < bounds.y[0]) {
